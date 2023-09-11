@@ -19,6 +19,7 @@ while True:
     for chunk in chunks:
         rx_msg_1 = client_1.recv(0.01)
         if rx_msg_1 is not None:
+            # recieving part
             rx_data = rx_msg_1.data.decode("utf-8")
             print(rx_data)
             packet_number = rx_msg_1.data[0]
@@ -35,7 +36,7 @@ while True:
         concatenated_string = ''.join(chr(val) for val in ascii_values_chunk)
 
         packet_number = (j % 5) + 1
-
+# transmitting part
         msg = can.Message(arbitration_id=100, is_extended_id=False, dlc=len(concatenated_string.encode("utf-8"))+1,data=bytes([packet_number]) + concatenated_string.encode("utf-8"))
 
         client.send(msg)
